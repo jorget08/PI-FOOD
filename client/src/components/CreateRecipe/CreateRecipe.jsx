@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createRecipe, getTypes } from '../../redux/actions';
+import NavBar from '../NavBar/NavBar';
 //import { useNavigate } from "react-router-dom"
 
 
@@ -74,14 +75,13 @@ const CreateRecipe = () => {
         dispatch(createRecipe(input))
         alert('Recipe sucessfuly created!!!')
         setInput({
-            name: "",
+            title: "",
             summary: "",
-            image: "",
+            //image: "",
             score: 0,
-            healthScore: 0,
+            healthyLevel: 0,
             steps: "",
-            diet: [],
-        
+            diets: [],
         })
         //navigate("/home")
     }
@@ -89,6 +89,7 @@ const CreateRecipe = () => {
 
   return (
     <div>
+        <NavBar></NavBar>
         <form onSubmit={(e) => handleSubmit(e)}>
             <h2>Create your recipe</h2>
             <div>

@@ -13,7 +13,7 @@ const RecipeCard = ({id, title, image, healthScore, spoonacularScore, diets}) =>
                 <img src={image} alt={title} />
                 <p>Healthy: {healthScore}</p>
                 <p>Score: {spoonacularScore}</p>
-                <p>Diet: {diets}</p>
+                <p>Diet: {diets.join(", ")}</p>
             </div>
         </>
     )
