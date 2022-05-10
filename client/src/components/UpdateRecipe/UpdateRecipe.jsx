@@ -1,32 +1,31 @@
 import React, {useState, useEffect} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {createRecipe, getTypes} from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import {updateRecipe, getRecipeDetail, getTypes} from '../../redux/actions';
 import NavBar from '../NavBar/NavBar';
-// import { useNavigate } from "react-router-dom"
+
+
 
 
 function validate(input) {
     let errors = {};
-    if (!input.title) {
-        errors.title = "The name of recipe is required";
-    } else if (!input.summary) {
-        errors.summary = "Summary is required";
-    } else if (input.spoonacularScore > 100 || input.spoonacularScore < 0) {
+    if (input.spoonacularScore > 100 || input.spoonacularScore < 0) {
         errors.spoonacularScore = "The score has to be lower than 100";
     } else if (input.healthyLevel > 100 || input.healthyLevel < 0) {
         errors.healthyLevel = "The healt has to be lower than 100";
-    } else if(!input.diets.length){
-        errors.diets = "You need select at least a 1 diet to this recipe"
     }
     return errors;
 }
 
-const CreateRecipe = () => {
-    const dispatch = useDispatch()
+
+function UpdateRecipe(props) {
+
+    const {id} = useParams()
+    const recipe = useSelector(state => state.recipeDetail)
     const types = useSelector(state => state.types)
     const [errors, setError] = useState({})
+    const dispatch = useDispatch()
 
-    // const navigate = useNavigate()
 
     const [input, setInput] = useState({
         title: "",
@@ -37,7 +36,6 @@ const CreateRecipe = () => {
         steps: "",
         diets: []
     })
-
 
     useEffect(() => {
         dispatch(getTypes())
@@ -55,7 +53,6 @@ const CreateRecipe = () => {
         }));
     }
 
-
     function handleSelect(e) {
         setInput({
             ...input,
@@ -64,30 +61,25 @@ const CreateRecipe = () => {
                 e.target.value
             ]
         })
-        setError(validate({
-            ...input,
-            [e.target.name]: e.target.value
-        }))
     }
 
     function handleSubmit(e) {
-
         let x = parseInt( input.healthyLevel)
         let y = parseInt( input.spoonacularScore)
 
-        if (!input.title || !input.summary) {
+        if (input.spoonacularScore > 100 || input.spoonacularScore < 0) {
             e.preventDefault()
             setError(validate({
                 ...input,
                 [e.target.name]: e.target.value
-            }));
+            }))
 
-        } else if (!input.diets.length) {
+        } else if (input.healthyLevel > 100 || input.healthyLevel < 0) {
             e.preventDefault()
             setError(validate({
                 ...input,
                 [e.target.name]: e.target.value
-            }));
+            }))
 
         } else if(/^\d+$/.test(x) !==true || /^\d+$/.test(y) !== true) {
             e.preventDefault()
@@ -97,7 +89,7 @@ const CreateRecipe = () => {
 
         } else {
             e.preventDefault()
-            dispatch(createRecipe(input))
+            dispatch(updateRecipe(recipe.id, input))
             alert('Recipe sucessfuly created!!!')
             setInput({
                 title: "",
@@ -112,19 +104,29 @@ const CreateRecipe = () => {
         }
     }
 
-    return (
-        <div>
+    useEffect(() => {
+        dispatch(getRecipeDetail(id))
+    }, [dispatch, id]
+    );
+
+    useEffect(() => {
+        dispatch(getTypes())
+    }, [dispatch]);
+
+  return (
+    <div>
             <NavBar></NavBar>
             <div className='homeTitle'>
-                    <h2>Create your recipe</h2>
+                    <h2>Update your recipe</h2>
                 </div>
+            {recipe.title ? 
             <form onSubmit={
                 (e) => handleSubmit(e)
             }>
-                
                 <div className='firstColumn'>
                     <div>
-                    <strong><p>Recipe Name:</p></strong>
+                        <p><strong>Recipe Name:</strong></p>
+                        <p className='prev-data'>Previous data: </p><p> {recipe.title}</p>
                         <input type="text"
                             value={
                                 input.title
@@ -132,13 +134,10 @@ const CreateRecipe = () => {
                             name="title"
                             onChange={
                                 (e) => handleChange(e)
-                            }/> {
-                        errors.title && <strong><p className='error'>{
-                            errors.title
-                        }</p></strong>
-                    } </div>
+                            }/> </div>
                     <div>
-                    <strong> <p>Recipe summary</p></strong>
+                        <p><strong>Recipe summary</strong></p>
+                        <p className='prev-data'>Previous data:</p><p> {recipe.summary}</p>
                         <textarea type="text"
                             value={
                                 input.summary
@@ -146,13 +145,10 @@ const CreateRecipe = () => {
                             name="summary"
                             onChange={
                                 (e) => handleChange(e)
-                            }/> {
-                        errors.summary && <strong><p className='error'> {
-                            errors.summary
-                        }</p></strong>
-                    } </div>
+                            }/> </div>
                     <div className='lastRow'>
-                    <strong><p>Recipe Score:</p></strong>
+                        <p><strong>Recipe Score:</strong></p>
+                        <p className='prev-data'>Previous data: </p><p> {recipe.spoonacularScore}</p>
                         <input type="number"
                             value={
                                 input.spoonacularScore
@@ -164,16 +160,19 @@ const CreateRecipe = () => {
                         errors.spoonacularScore && <strong><p className='error'> {
                             errors.spoonacularScore
                         }</p></strong>
-                    }{
+                    } {
                         errors.numberError && <strong><p className='error'> {
                             errors.numberError
                         }</p></strong>
-                    }  </div>
+                    }
+                        <p>To update the score to 0 put 00</p>
+                    </div>
                 </div>
                 <div className='secondColumn'>
 
                 <div>
-                <strong><p>Recipe Healthy score:</p></strong>
+                    <p><strong>Recipe Healthy score:</strong></p>
+                    <p className='prev-data'>Previous data: </p><p> {recipe.healthyLevel}</p>
                     <input type="number"
                         value={
                             input.healthyLevel
@@ -189,9 +188,12 @@ const CreateRecipe = () => {
                     errors.numberError && <strong><p className='error'> {
                         errors.numberError
                     }</p></strong>
-                }</div>
+                }
+                    <p>To update the score to 0 put 00</p>
+                </div>
                 <div>
-                <strong><p>Steps:</p></strong>
+                    <p><strong>Steps</strong></p>
+                    <p className='prev-data'>Previous data: </p><p> {recipe.steps}</p>
                     <textarea type="text"
                         value={
                             input.steps
@@ -202,7 +204,8 @@ const CreateRecipe = () => {
                         }/>
                 </div>
                 <div className='inputDiets'>
-                <strong><p>Choose Diets:</p></strong>
+                    <p><strong>Choose Diets</strong></p>
+                    <p className='prev-data'>Previous data:</p> <p>{recipe.types ? recipe.types.map(e => e.name)?.join(", ") : recipe.diets?.join(", ")}</p>
                     <select name="diets"
                         value={
                             input.diets
@@ -222,19 +225,17 @@ const CreateRecipe = () => {
                             }</option>
                     })
                     } </select>
-                    {
-                        errors.diets && <strong><p className='error'> {
-                            errors.diets
-                        }</p></strong>
-                    } 
                 </div>
                 </div>
                 <div className='submit'>
-                    <button type="submit">Create Recipe</button>
+                    <button type="submit">Update Recipe</button>
                 </div>
             </form>
+            :
+            <h1>Loading...</h1>
+            }
         </div>
-    )
+  )
 }
 
-export default CreateRecipe
+export default UpdateRecipe;

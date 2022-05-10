@@ -6,6 +6,9 @@ export const CREATE_RECIPE = "CREATE_RECIPE"
 export const GET_ALL_TYPES = "GET_ALL_TYPES"
 export const SEARCH_RECIPE = "SEARCH_RECIPE"
 export const FILTER_BY_NAME = "FILTER_BY_NAME"
+export const FILTER_BY_SCORE = "FILTER_BY_SCORE"
+export const FILTER_BY_DIET = "FILTER_BY_DIET"
+export const UPDATE_RECIPE = "UPDATE_RECIPE"
 
 
 
@@ -34,6 +37,14 @@ export const createRecipe = (payload) => {
   }
 };
 
+export const updateRecipe = (id, payload) => {
+  return async(dispatch) => {
+    return axios.put(`http://localhost:3001/recipe/${id}`, payload)
+    .then(response => dispatch({type: UPDATE_RECIPE, payload:response}))
+    .catch(err => console.error(err))
+  }
+};
+
 export const getTypes = () => {
   return async function (dispatch) {
     return axios.get('http://localhost:3001/types')
@@ -53,6 +64,20 @@ export const searchByName = (name) => {
 export const filterByName = (payload) => {  
   return {
     type: 'FILTER_BY_NAME',
+    payload,
+  }
+}
+
+export const filterByScore = (payload) => {  
+  return {
+    type: 'FILTER_BY_SCORE',
+    payload,
+  }
+}
+
+export const filterByDiet = (payload) => {  
+  return {
+    type: 'FILTER_BY_DIET',
     payload,
   }
 }

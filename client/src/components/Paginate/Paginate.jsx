@@ -7,7 +7,7 @@ const Paginate = ({ recipePerPage, totalRecipes, paginat }) => {
         pageNumebers.push(i)
     }
   return (
-    <div>
+    <div className='paginate'>
         <ul>
             {pageNumebers.map(n => {
                 return <li key={n}>

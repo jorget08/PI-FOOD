@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllRecipes, filterByName } from '../../redux/actions';
+import { getAllRecipes, filterByName, filterByScore, getTypes, filterByDiet } from '../../redux/actions';
 import RecipeCard from '../RecipeCard/RecipeCard';
 import Paginate from '../Paginate/Paginate';
 import SearchBar from '../SearchBar/SearchBar';
@@ -11,7 +11,7 @@ const Home = () => {
 
     //states
     const recipes = useSelector(state => state.recipes)
-    const [loading, setLoading] = useState(false);
+    const types = useSelector(state => state.types)
     const [currentPage, setCurrentPage] = useState(1);
     const [recipePerPage] = useState(9);
 
@@ -23,16 +23,15 @@ const Home = () => {
     const dispatch = useDispatch()
 
     const [orden, setOrden] = useState('')
+    const [orden2, setOrden2] = useState('')
 
     useEffect(() => {
-        setLoading(true);
         dispatch(getAllRecipes())
-        setLoading(false);
     }, [dispatch])
 
-    if(loading){
-        return <h2>Cargando...</h2>
-    }
+    useEffect(() => {
+        dispatch(getTypes())
+    }, [dispatch])
 
     function handleOrderByName(e){
         e.preventDefault()
@@ -42,31 +41,69 @@ const Home = () => {
                                                // y ya con eso se actualizan los estados globales
     }
 
+    function handleOrderByScore(e){
+        e.preventDefault()
+        dispatch(filterByScore(e.target.value))
+        setCurrentPage(1)
+        setOrden2(`Ordenado ${e.target.value}`) //al cambiar un estado local se reenderiza la pag
+                                               // y ya con eso se actualizan los estados globales
+    }
+
+    function handleFilterByDiet(e){
+        e.preventDefault()
+        dispatch(filterByDiet(e.target.value))
+        setCurrentPage(1)
+    }
+
     //change page
     const paginat = (pageNumber) => setCurrentPage(pageNumber)
     
     return (
         <div>
+            <div className='nav'>
             <NavBar></NavBar>
             <SearchBar></SearchBar>
-            <select onChange={(e) => handleOrderByName(e)}>
-                <option value="" >Select Order</option>
-                <option value="asc">Ascendent</option>
-                <option value="desc">Descendent</option>
-            </select>
+            </div>
+            <div className='homeTitle'>
             <h1>Henry Food</h1>
             <br/>
-            <h2>Recipes</h2>
-            {currentRecipe?.map(r => {
+            <h2>All our Recipes</h2>
+            </div>
+                <div className='filterOrder'>
+                <select className='sytle-select' onChange={(e) => handleOrderByName(e)}>
+                    <option value="" >Alphabetical Order</option>
+                    <option value="asc">Ascendent</option>
+                    <option value="desc">Descendent</option>
+                </select>
+                <select className='sytle-select' onChange={(e) => handleOrderByScore(e)}>
+                    <option value="">Order by Score</option>
+                    <option value="high">High Score</option>
+                    <option value="desc">Low Score</option>
+                </select>
+                <select className='sytle-select' onChange={(e) => handleFilterByDiet(e)}>
+                <option value="" >Select Diet</option>
+                    {types?.map((e, i) => {
+                        return <option key={i} value={e.name}>{e.name}</option>
+                    })}
+                </select>
+                </div>
+
+            
+            <div className='recipes'>
+            {currentRecipe[0] ? currentRecipe.map(r => {
                 return <RecipeCard
                 key = {r.id}
                 id = {r.id}
                 title = {r.title}
                 image = {r.image}
                 healthScore = {r.healthScore ? r.healthScore : r.healthyLevel}
-                spoonacularScore = {r.spoonacularScore ? r.spoonacularScore : r.score}
+                spoonacularScore = {r.spoonacularScore}
                 diets =  {r.types ? r.types.map(e => e.name) : r.diets}/>
-            })}
+            }):
+            <h1>Loading...</h1>
+            }
+            </div>
+            
             <Paginate recipePerPage={recipePerPage} totalRecipes={recipes.length} paginat={paginat} />
         </div>
     )

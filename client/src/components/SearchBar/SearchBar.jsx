@@ -15,13 +15,14 @@ const SearchBar = () => {
     function handleSubmit(e){
         e.preventDefault()
         dispatch(searchByName(name))
+        console.log(dispatch)
         setName("")
     }
 
   return (
     <div>
         <input type="search" placeholder='Search...' value={name} onChange={(e) => handleChange(e)} />
-        <button type='submit' onClick={(e) => handleSubmit(e)} >Search</button>
+        <button className='search-button' type='submit' onClick={(e) => handleSubmit(e)} >Search</button>
     </div>
   )
 }

@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    score: {
+    spoonacularScore: {
       type: DataTypes.INTEGER,
     },
     healthyLevel: {

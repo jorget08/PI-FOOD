@@ -5,17 +5,18 @@ import { Link } from 'react-router-dom';
 const RecipeCard = ({id, title, image, healthScore, spoonacularScore, diets}) => {
     
     return(
-        <>
-                <div>
+        <div className='recipeCard'>
+            
                 <Link to={`/recipes/detail/${id}`}>
-                    <h4>Recipe: {title}</h4>
+                    <div>
+                        <h4>{title}</h4>
+                        <img src={image} alt={title} />
+                        <p><strong>Healthy:</strong> {healthScore}</p>
+                        <p><strong>Score:</strong> {spoonacularScore}</p>
+                        <p><strong>Diet:</strong> {diets.join(", ")}</p>
+                    </div>
                 </Link>
-                <img src={image} alt={title} />
-                <p>Healthy: {healthScore}</p>
-                <p>Score: {spoonacularScore}</p>
-                <p>Diet: {diets.join(", ")}</p>
-            </div>
-        </>
+        </div>
     )
 }
 
