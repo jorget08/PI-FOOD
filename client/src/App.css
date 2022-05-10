@@ -45,6 +45,9 @@ body {
 .recipes .recipeCard:hover {
   background-color: #d5946b;
 }
+.recipes .div-loading {
+  grid-column: 2/-1;
+}
 .navBar {
   display: flex;
 }
@@ -160,9 +163,12 @@ form textarea {
   height: 50px;
 }
 form .firstColumn {
+  grid-template-rows: repeat(4, 1fr);
+  align-items: center;
   align-items: flex-end;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   row-gap: 1rem;
 }
 form .firstColumn input {
@@ -172,6 +178,7 @@ form .firstColumn .lastRow {
   padding-top: 10px;
 }
 form .secondColumn {
+  grid-template-rows: repeat(3, 1fr);
   align-items: flex-start;
   display: flex;
   flex-direction: column;
@@ -181,8 +188,8 @@ form .secondColumn input {
   height: 30px;
 }
 form .secondColumn .inputDiets {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
   padding-top: 1.8rem;
 }
 form .submit {
@@ -232,7 +239,12 @@ form .submit button:hover {
   cursor: pointer;
 }
 .error {
+  display: block;
   color: red;
+  margin: 0 auto;
+  font-size: 18px;
+  max-width: fit-content;
+  text-align: center;
 }
 .prev-data {
   color: white;
@@ -248,4 +260,7 @@ form .submit button:hover {
   background-color: #a95968;
   color: aliceblue;
   cursor: pointer;
+}
+.tip {
+  font-size: 13px;
 }

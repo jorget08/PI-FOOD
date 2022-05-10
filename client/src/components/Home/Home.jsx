@@ -6,6 +6,9 @@ import Paginate from '../Paginate/Paginate';
 import SearchBar from '../SearchBar/SearchBar';
 import NavBar from '../NavBar/NavBar';
 
+import loading from '../../img/Loading.gif'
+import noFood from '../../img/noFood.gif'
+
 
 const Home = () => {
 
@@ -90,7 +93,13 @@ const Home = () => {
 
             
             <div className='recipes'>
-            {currentRecipe[0] ? currentRecipe.map(r => {
+            {currentRecipe[0] === 'No existe esa receta' ? 
+            <div className='div-loading'>
+                <h1>No hay recetas con ese nombre</h1>
+                <img src={noFood} alt="No Food"/>
+            </div> 
+            : 
+            currentRecipe[0] ? currentRecipe.map(r => {
                 return <RecipeCard
                 key = {r.id}
                 id = {r.id}
@@ -100,7 +109,10 @@ const Home = () => {
                 spoonacularScore = {r.spoonacularScore}
                 diets =  {r.types ? r.types.map(e => e.name) : r.diets}/>
             }):
-            <h1>Loading...</h1>
+            <div className='div-loading'>
+                <h1>Loading...</h1>
+                <img src={loading} alt="Loading"/>
+            </div>
             }
             </div>
             

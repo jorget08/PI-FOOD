@@ -8,7 +8,7 @@ router.get("/", async (req, res, next) => {
         const allRecipes = await getAllRecipes()
         if(name){
             let recipes = allRecipes.filter(e => e.title.toLowerCase().includes(name.toString().toLowerCase()))
-            recipes.length ? res.status(200).json(recipes) : res.status(404).send("Recipe doesn´t exist")
+            recipes.length ? res.status(200).json(recipes) : res.json(["No existe esa receta"])
         }
         else{
             res.status(200).json(allRecipes)

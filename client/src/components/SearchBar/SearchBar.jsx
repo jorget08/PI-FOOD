@@ -15,7 +15,6 @@ const SearchBar = () => {
     function handleSubmit(e){
         e.preventDefault()
         dispatch(searchByName(name))
-        console.log(dispatch)
         setName("")
     }
 

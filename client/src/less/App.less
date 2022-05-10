@@ -52,6 +52,9 @@ body {
             background-color: rgba(213,148,107,255);
         }
     }
+    .div-loading{
+        grid-column: 2/-1;
+    }
 }
 
 // Nav
@@ -200,18 +203,22 @@ form {
         height: 50px;
     }
     .firstColumn {
+    grid-template-rows: repeat(4, 1fr);
+    align-items: center;
         input {
             height: 30px;
         }
         align-items: flex-end;
         display: flex;
         flex-direction: column;
+        justify-content: flex-end;
         row-gap: 1rem;
         .lastRow {
             padding-top: 10px;
         }
     }
     .secondColumn {
+        grid-template-rows: repeat(3, 1fr);
         input {
             height: 30px;
         }
@@ -219,8 +226,8 @@ form {
         display: flex;
         flex-direction: column;
         .inputDiets {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
+            flex-direction: column;
             padding-top: 1.8rem;
         }
     row-gap: 1rem;
@@ -278,7 +285,12 @@ form {
 }
 
 .error {
-    color: red
+    display: block;
+    color: red;
+    margin: 0 auto;
+    font-size: 18px;
+    max-width: fit-content;
+    text-align: center;
 }
 
 .prev-data {
@@ -298,6 +310,10 @@ form {
             cursor: pointer;
         }
     }
+}
+
+.tip {
+    font-size: 13px;
 }
 
 

@@ -176,7 +176,7 @@ function UpdateRecipe(props) {
                             errors.numberError
                         }</p></strong>
                     }
-                        <p>To update the score to 0 put 00</p>
+                        <p className='tip'>To update the score to 0 put 00</p>
                     </div>
                 </div>
                 <div className='secondColumn'>
@@ -200,7 +200,7 @@ function UpdateRecipe(props) {
                         errors.numberError
                     }</p></strong>
                 }
-                        <p>To update the score to 0 put 00</p>
+                        <p className='tip'>To update the score to 0 put 00</p>
                 </div>
                 <div>
                     <p><strong>Steps</strong></p>

@@ -7,15 +7,15 @@ import NavBar from '../NavBar/NavBar';
 
 function validate(input) {
     let errors = {};
-    if (!input.title) {
+    if (! input.title) {
         errors.title = "The name of recipe is required";
-    } else if (!input.summary) {
+    } else if (! input.summary) {
         errors.summary = "Summary is required";
     } else if (input.spoonacularScore > 100 || input.spoonacularScore < 0) {
         errors.spoonacularScore = "The score has to be lower than 100";
     } else if (input.healthyLevel > 100 || input.healthyLevel < 0) {
         errors.healthyLevel = "The healt has to be lower than 100";
-    } else if(!input.diets.length){
+    } else if (! input.diets.length) {
         errors.diets = "You need select at least a 1 diet to this recipe"
     }
     return errors;
@@ -72,8 +72,8 @@ const CreateRecipe = () => {
 
     function handleSubmit(e) {
 
-        let x = parseInt( input.healthyLevel)
-        let y = parseInt( input.spoonacularScore)
+        let x = parseInt(input.healthyLevel)
+        let y = parseInt(input.spoonacularScore)
 
         if (!input.title || !input.summary) {
             e.preventDefault()
@@ -89,11 +89,9 @@ const CreateRecipe = () => {
                 [e.target.name]: e.target.value
             }));
 
-        } else if(/^\d+$/.test(x) !==true || /^\d+$/.test(y) !== true) {
+        } else if (/^\d+$/.test(x) !== true || /^\d+$/.test(y) !== true) {
             e.preventDefault()
-            setError({
-                numberError: "Healty score and the Score must be numbers"
-            });
+            setError({numberError: "Healty score and the Score must be numbers"});
 
         } else {
             e.preventDefault()
@@ -116,15 +114,17 @@ const CreateRecipe = () => {
         <div>
             <NavBar></NavBar>
             <div className='homeTitle'>
-                    <h2>Create your recipe</h2>
-                </div>
+                <h2>Create your recipe</h2>
+            </div>
             <form onSubmit={
                 (e) => handleSubmit(e)
             }>
-                
+
                 <div className='firstColumn'>
                     <div>
-                    <strong><p>Recipe Name:</p></strong>
+                        <strong>
+                            <p>Recipe Name:</p>
+                        </strong>
                         <input type="text"
                             value={
                                 input.title
@@ -132,13 +132,19 @@ const CreateRecipe = () => {
                             name="title"
                             onChange={
                                 (e) => handleChange(e)
-                            }/> {
-                        errors.title && <strong><p className='error'>{
-                            errors.title
-                        }</p></strong>
-                    } </div>
+                            }/>  
+                             {errors.title &&
+                        <strong>
+                            <p className='error'>
+                                {
+                                errors.title
+                            }</p>
+                        </strong>}
+                    </div>
                     <div>
-                    <strong><p>Recipe Image:</p></strong>
+                        <strong>
+                            <p>Recipe Image:</p>
+                        </strong>
                         <input type="text"
                             value={
                                 input.image
@@ -146,10 +152,12 @@ const CreateRecipe = () => {
                             name="image"
                             onChange={
                                 (e) => handleChange(e)
-                            }/> 
+                            }/>
                     </div>
                     <div>
-                    <strong> <p>Recipe summary</p></strong>
+                        <strong>
+                            <p>Recipe summary</p>
+                        </strong>
                         <textarea type="text"
                             value={
                                 input.summary
@@ -158,12 +166,17 @@ const CreateRecipe = () => {
                             onChange={
                                 (e) => handleChange(e)
                             }/> {
-                        errors.summary && <strong><p className='error'> {
-                            errors.summary
-                        }</p></strong>
+                        errors.summary && <strong>
+                            <p className='error'>
+                                {
+                                errors.summary
+                            }</p>
+                        </strong>
                     } </div>
                     <div className='lastRow'>
-                    <strong><p>Recipe Score:</p></strong>
+                        <strong>
+                            <p>Recipe Score:</p>
+                        </strong>
                         <input type="number"
                             value={
                                 input.spoonacularScore
@@ -172,73 +185,98 @@ const CreateRecipe = () => {
                             onChange={
                                 (e) => handleChange(e)
                             }/> {
-                        errors.spoonacularScore && <strong><p className='error'> {
-                            errors.spoonacularScore
-                        }</p></strong>
-                    }{
-                        errors.numberError && <strong><p className='error'> {
-                            errors.numberError
-                        }</p></strong>
-                    }  </div>
+                        errors.spoonacularScore && <strong>
+                            <p className='error'>
+                                {
+                                errors.spoonacularScore
+                            }</p>
+                        </strong>
+                    }
+                        {
+                        errors.numberError && <strong>
+                            <p className='error'>
+                                {
+                                errors.numberError
+                            }</p>
+                        </strong>
+                    } </div>
                 </div>
                 <div className='secondColumn'>
 
-                <div>
-                <strong><p>Recipe Healthy score:</p></strong>
-                    <input type="number"
-                        value={
-                            input.healthyLevel
-                        }
-                        name="healthyLevel"
-                        onChange={
-                            (e) => handleChange(e)
-                        }/> {
-                    errors.healthyLevel && <strong><p className='error'>{
-                        errors.healthyLevel
-                    }</p></strong>
-                } {
-                    errors.numberError && <strong><p className='error'> {
-                        errors.numberError
-                    }</p></strong>
-                }</div>
-                <div>
-                <strong><p>Steps:</p></strong>
-                    <textarea type="text"
-                        value={
-                            input.steps
-                        }
-                        name="steps"
-                        onChange={
-                            (e) => handleChange(e)
-                        }/>
-                </div>
-                <div className='inputDiets'>
-                <strong><p>Choose Diets:</p></strong>
-                    <select name="diets"
-                        value={
-                            input.diets
-                        }
-                        multiple
-                        onChange={
-                            (e) => handleSelect(e)
-                    }>
-                        {
-                        types.map((t, index) => {
-                            return <option key={index}
-                                value={
-                                    t.name
-                            }>
+                    <div>
+                        <strong>
+                            <p>Recipe Healthy score:</p>
+                        </strong>
+                        <input type="number"
+                            value={
+                                input.healthyLevel
+                            }
+                            name="healthyLevel"
+                            onChange={
+                                (e) => handleChange(e)
+                            }/> {
+                        errors.healthyLevel && <strong>
+                            <p className='error'>
                                 {
-                                t.name
-                            }</option>
-                    })
-                    } </select>
-                    {
-                        errors.diets && <strong><p className='error'> {
-                            errors.diets
-                        }</p></strong>
-                    } 
-                </div>
+                                errors.healthyLevel
+                            }</p>
+                        </strong>
+                    }
+                        {
+                        errors.numberError && <strong>
+                            <p className='error'>
+                                {
+                                errors.numberError
+                            }</p>
+                        </strong>
+                    }</div>
+                    <div>
+                        <strong>
+                            <p>Steps:</p>
+                        </strong>
+                        <textarea type="text"
+                            value={
+                                input.steps
+                            }
+                            name="steps"
+                            onChange={
+                                (e) => handleChange(e)
+                            }/>
+                    </div>
+                    <div>
+                        <strong>
+                            <p>Choose Diets:</p>
+                        </strong>
+
+                    </div>
+                    <div className='inputDiets'>
+                        <select name="diets"
+                            value={
+                                input.diets
+                            }
+                            multiple
+                            onChange={
+                                (e) => handleSelect(e)
+                        }>
+                            {
+                            types.map((t, index) => {
+                                return <option key={index}
+                                    value={
+                                        t.name
+                                }>
+                                    {
+                                    t.name
+                                }</option>
+                        })
+                        } </select>
+                        {
+                        errors.diets && <strong>
+                            <p className='error'>
+                                {
+                                errors.diets
+                            }</p>
+                        </strong>
+                    } </div>
                 </div>
                 <div className='submit'>
                     <button type="submit">Create Recipe</button>
