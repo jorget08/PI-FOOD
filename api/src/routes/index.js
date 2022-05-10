@@ -7,6 +7,7 @@ const recipesRoutes = require('./recipes')
 const typeRoutes = require('./type')
 //const {getAllRecipes } = require('./getInfo/getInfo')
 
+const fs = require("fs")
 
 
 // Configurar los routers
@@ -17,13 +18,14 @@ router.use("/types", typeRoutes)
 
 router.post('/recipe', async (req, res, next) => {
     try{
-        const { title, summary, spoonacularScore, healthyLevel, steps, diets } = req.body
+        const { title, summary, spoonacularScore, healthyLevel, steps, diets, image } = req.body
         const recipeCreated = await Recipe.create({
             title,
             summary,
             spoonacularScore,
             healthyLevel,
-            steps
+            steps,
+            image
         })
         for (let i = 0; i < diets.length; i++) {
             const diet = await Type.findOne({
@@ -41,7 +43,7 @@ router.post('/recipe', async (req, res, next) => {
 router.put('/recipe/:id', async (req, res, next) => {
     try{
         const {id} = req.params
-        const {title, summary, spoonacularScore, healthyLevel, steps, diets } = req.body
+        const {title, summary, spoonacularScore, healthyLevel, steps, diets, image } = req.body
         //const allRecipes = await getAllRecipes()
         if(id){
             
@@ -76,6 +78,13 @@ router.put('/recipe/:id', async (req, res, next) => {
             if(steps){ 
                 await Recipe.update({
                     steps: steps
+                },{
+                    where: {id: id}
+                })
+            }
+            if(image){ 
+                await Recipe.update({
+                    image: image
                 },{
                     where: {id: id}
                 })

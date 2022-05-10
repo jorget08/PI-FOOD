@@ -113,6 +113,9 @@ input[type=search] {
 .detail h4 {
   font-size: 30px;
 }
+.detail .update-buttom {
+  height: 0.5rem;
+}
 .detail .detailIMG {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -233,4 +236,16 @@ form .submit button:hover {
 }
 .prev-data {
   color: white;
+}
+.submit2 button {
+  font-size: 18px;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: azure;
+  color: black;
+}
+.submit2 button:hover {
+  background-color: #a95968;
+  color: aliceblue;
+  cursor: pointer;
 }

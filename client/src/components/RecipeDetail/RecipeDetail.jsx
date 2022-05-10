@@ -26,11 +26,7 @@ const RecipeDetail = (props) => {
             typeof recipe.id === 'string' ?
 
                 <div className='detail'>
-                    <div>
-                        <Link to={`/update/${recipe.id}`}>
-                            <button>Update</button>
-                        </Link>
-                    </div>
+                    
                     <div className='detailIMG'>
                         <div className='detailGrid'>
                         <h4>{recipe.title}</h4>
@@ -54,7 +50,13 @@ const RecipeDetail = (props) => {
                             <p>{recipe.steps}</p>
                         </div>
                         }
-                        
+                        <div className='update-buttom'>
+                        <Link to={`/update/${recipe.id}`}>
+                            <div className='submit2'>
+                                <button>Update</button>
+                            </div>
+                        </Link>
+                    </div>
                     </div>
                 </div>:
 

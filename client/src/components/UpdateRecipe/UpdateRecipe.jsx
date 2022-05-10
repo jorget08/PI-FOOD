@@ -30,7 +30,7 @@ function UpdateRecipe(props) {
     const [input, setInput] = useState({
         title: "",
         summary: "",
-        // image: "",
+        image: "",
         spoonacularScore: 0,
         healthyLevel: 0,
         steps: "",
@@ -94,7 +94,7 @@ function UpdateRecipe(props) {
             setInput({
                 title: "",
                 summary: "",
-                // image: "",
+                image: "",
                 spoonacularScore: 0,
                 healthyLevel: 0,
                 steps: "",
@@ -135,6 +135,17 @@ function UpdateRecipe(props) {
                             onChange={
                                 (e) => handleChange(e)
                             }/> </div>
+                            <div>
+                    <strong><p>Recipe Image:</p></strong>
+                        <input type="text"
+                            value={
+                                input.image
+                            }
+                            name="image"
+                            onChange={
+                                (e) => handleChange(e)
+                            }/> 
+                    </div>
                     <div>
                         <p><strong>Recipe summary</strong></p>
                         <p className='prev-data'>Previous data:</p><p> {recipe.summary}</p>
@@ -189,7 +200,7 @@ function UpdateRecipe(props) {
                         errors.numberError
                     }</p></strong>
                 }
-                    <p>To update the score to 0 put 00</p>
+                        <p>To update the score to 0 put 00</p>
                 </div>
                 <div>
                     <p><strong>Steps</strong></p>

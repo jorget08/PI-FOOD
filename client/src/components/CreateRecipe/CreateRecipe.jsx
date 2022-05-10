@@ -31,7 +31,7 @@ const CreateRecipe = () => {
     const [input, setInput] = useState({
         title: "",
         summary: "",
-        // image: "",
+        image: "",
         spoonacularScore: 0,
         healthyLevel: 0,
         steps: "",
@@ -102,7 +102,7 @@ const CreateRecipe = () => {
             setInput({
                 title: "",
                 summary: "",
-                // image: "",
+                image: "",
                 spoonacularScore: 0,
                 healthyLevel: 0,
                 steps: "",
@@ -137,6 +137,17 @@ const CreateRecipe = () => {
                             errors.title
                         }</p></strong>
                     } </div>
+                    <div>
+                    <strong><p>Recipe Image:</p></strong>
+                        <input type="text"
+                            value={
+                                input.image
+                            }
+                            name="image"
+                            onChange={
+                                (e) => handleChange(e)
+                            }/> 
+                    </div>
                     <div>
                     <strong> <p>Recipe summary</p></strong>
                         <textarea type="text"
